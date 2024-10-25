@@ -1,0 +1,4 @@
+jupyterlab
+streamlit
+jupyterlab-collaboration
+ibm-watsonx-ai
