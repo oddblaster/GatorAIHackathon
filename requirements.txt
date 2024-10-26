@@ -2,3 +2,8 @@ jupyterlab
 streamlit
 ibm-watsonx-ai
 opencv-python
+openmeteo_requests
+requests-cache
+retry-requests
+numpy
+pandas
