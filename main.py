@@ -5,7 +5,6 @@ st.set_page_config(
     page_icon="🌊"
 )
 st.sidebar.title("FloodFinder")
-print("Hello World")
 import openmeteo_requests
 
 import requests_cache

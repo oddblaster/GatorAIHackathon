@@ -3,3 +3,7 @@ env/
 Assets/
 
 .env
+saved.png
+Lib/
+Scripts/
+pyvenv.cfg
