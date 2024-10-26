@@ -9,7 +9,7 @@ import string
 
 
 # Load the existing workbook
-wb = load_workbook('Florida_DemographicsByCity_sample.xlsx')  # Replace 'your_file.xlsx' with your actual file name
+wb = load_workbook('Florida_DemographicsByCity_sample.xlsx')
 
 # Load the existing workbook
 # Select a specific sheet (by name or index)
