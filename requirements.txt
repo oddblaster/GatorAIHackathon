@@ -1,4 +1,7 @@
 jupyterlab
 streamlit
-jupyterlab-collaboration
 ibm-watsonx-ai
+streamlit
+pyaudio
+wave
+opencv-python
