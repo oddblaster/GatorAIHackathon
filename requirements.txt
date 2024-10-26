@@ -10,3 +10,8 @@ numpy
 pandas
 python-dotenv
 geopandas
+scikit-learn
+seaborn
+supabase
+streamlit-tailwind
+streamlit_js_eval
