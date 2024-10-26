@@ -1,5 +1,8 @@
-env/
 .ipynb_checkpoints/
 Assets/
-
+data
 .env
+saved.png
+Lib/
+Scripts/
+pyvenv.cfg
