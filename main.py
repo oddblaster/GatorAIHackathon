@@ -1,4 +1,18 @@
 import streamlit as st
+from dotenv import load_dotenv
+
+import os
+from supabase import create_client, Client
+
+load_dotenv()
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+
+
+url: str = os.environ.get(SUPABASE_URL)
+key: str = os.environ.get(SUPABASE_KEY)
+supabase: Client = create_client(url, key)
+
 
 st.set_page_config(
     page_title="Main Page",
