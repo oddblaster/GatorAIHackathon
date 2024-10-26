@@ -1,41 +1,42 @@
-
 import streamlit as st
 import cv2
-import time
 import numpy as np
 
 st.set_page_config(
-    page_title="Recorder",
-    page_icon="📹",
-    
-    
+    page_title="Camera Snapshot",
+    page_icon="📷",
 )
-st.title("Hello World")
 
-#Access the Camera
+st.title("Take a Picture")
+
+# Initialize session state for capturing the image
+if "captured_image" not in st.session_state:
+    st.session_state["captured_image"] = None
+
+# Access the camera
 cap = cv2.VideoCapture(0)
 
+# Initialize a placeholder for the video feed
 frame_placeholder = st.empty()
-while True:
-    
-    #Frame is the image itself a numpy, ret returns whether the camera works properly
+
+# Take Picture button outside the loop
+take_picture = st.button("Take Picture")
+
+# Continuously display video feed
+while cap.isOpened():
     ret, frame = cap.read()
-    width = int(cap.get(3))
-    height = int(cap.get(4))
-    
-     
-    #Shows the Frame
-    frame_placeholder.image(frame, channels="BGR")
-    
-    #When button is pressed break the loop
-    if cv2.waitKey(1) == ord('q'):
+    if not ret:
+        st.write("Failed to grab frame.")
         break
-cap.release()
-cv2.destroyAllWindows()
+    
+    # Convert frame to RGB (from BGR) for Streamlit
+    frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
+    # Show the video feed in the placeholder
+    frame_placeholder.image(frame_rgb, use_column_width=True)
 
-
-
-st.write("This is a test")
-
-st.title()
+    # Capture image if the button was clicked
+    if take_picture:
+        st.session_state["captured_image"] = frame
+        cv2.imwrite("saved.png", frame)
+        cap.release()
