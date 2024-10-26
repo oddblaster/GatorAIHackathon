@@ -12,3 +12,5 @@ saved.png
 Lib/
 Scripts/
 pyvenv.cfg
+gatorai/node_modules
+venv
