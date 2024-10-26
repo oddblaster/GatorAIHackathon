@@ -1,6 +1,4 @@
 jupyterlab
 streamlit
 ibm-watsonx-ai
-streamlit
-wave
 opencv-python
