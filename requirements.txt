@@ -16,3 +16,5 @@ streamlit_js_eval
 seaborn
 supabase
 scikit-learn
+seaborn
+supabase

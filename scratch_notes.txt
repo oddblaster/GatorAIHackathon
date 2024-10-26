@@ -56,3 +56,14 @@ data = {
 }
 
 response = supabase.table("input_data").insert(data).execute()
+
+
+
+
+data = {
+  "latitude": 66.66,
+  "longitude": -66.66,
+  "text_description": "blahblahblah"
+}
+
+response = supabase.table("input_data").insert(data).execute()
