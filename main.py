@@ -1,15 +1,33 @@
 import streamlit as st
+from dotenv import load_dotenv
+
+import os
+from supabase import create_client, Client
+
+load_dotenv()
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+
+
+url: str = os.environ.get(SUPABASE_URL)
+key: str = os.environ.get(SUPABASE_KEY)
+supabase: Client = create_client(url, key)
+
+from streamlit_tailwind import st_tw
 
 st.set_page_config(
     page_title="Main Page",
-    page_icon="🌊"
+    page_icon="🌊",
+	layout="wide"
 )
-st.sidebar.title("FloodFinder")
+st.sidebar.title("#ALIVE")
+print("Hello World")
 import openmeteo_requests
 
 import requests_cache
 import pandas as pd
 from retry_requests import retry
+
 
 # Setup the Open-Meteo API client with cache and retry on error
 cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
@@ -44,6 +62,70 @@ daily_data = {"date": pd.date_range(
 	inclusive = "left"
 )}
 daily_data["river_discharge"] = daily_river_discharge
+
+
+html_string = """
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  	<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<style>
+    .text-drop-shadow {
+        display: inline-block;
+        color: #39FF14;
+        font-size: 6rem;
+        font-weight: bold;
+        filter: drop-shadow(0 0 10px #39FF14);
+        margin-right: 2rem; 
+    }
+
+         display: inline-block;
+        white-space: nowrap;
+    }
+
+    .marquee-container {
+        overflow: hidden;
+        width: 100%;
+        background-color: #000000;
+        display: flex;
+        align-items: center;
+    }
+
+    .marquee-content {
+        display: flex;
+        width: calc(200% + 8rem); /* 200% width plus total margin-right */
+        animation: scroll-left 20s linear infinite;
+    }
+
+    @keyframes scroll-left {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+</style>
+
+<body>
+    <div class="marquee-container h-full bg-black">
+        <div class="marquee-content">
+            <p class="scrolling-text text-drop-shadow">#ALIVE</p>
+            <p class="scrolling-text text-drop-shadow">#ALIVE</p>
+            <p class="scrolling-text text-drop-shadow">#ALIVE</p>
+            <p class="scrolling-text text-drop-shadow">#ALIVE</p>
+            <p class="scrolling-text text-drop-shadow">#ALIVE</p>
+            <p class="scrolling-text text-drop-shadow">#ALIVE</p>
+            <p class="scrolling-text text-drop-shadow">#ALIVE</p>
+            <p class="scrolling-text text-drop-shadow">#ALIVE</p>
+        </div>
+    </div>
+</body>
+"""
+st.components.v1.html(html_string, height=360)
+
+
 
 daily_dataframe = pd.DataFrame(data = daily_data)
 print(daily_dataframe)
