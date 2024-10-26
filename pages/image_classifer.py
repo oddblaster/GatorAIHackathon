@@ -11,7 +11,7 @@ IBM_API_KEY = os.getenv("IBM_API_KEY")
 
 credentials = Credentials(
                    url = "https://us-south.ml.cloud.ibm.com",
-                   api_key = "zGWBN0kyqZxsOc1wzsMDMqqO5r9Da49rTRwsBQYqt_jS",
+                   api_key = "",
                   )
 
 api_client = APIClient(credentials)
