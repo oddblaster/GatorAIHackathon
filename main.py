@@ -12,6 +12,7 @@ supabase: Client = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
 
 st.set_page_config(
     page_title="Main Page",
-    page_icon="🌊"
+    page_icon="🌊",
+	layout="wide"
 )
 st.sidebar.title("#ALIVE")

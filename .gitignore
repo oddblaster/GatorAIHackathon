@@ -1,8 +1,7 @@
-env/
 .ipynb_checkpoints/
 Assets/
-
 .env
+gatorai/node_modules
 saved.png
 Lib/
 Scripts/
