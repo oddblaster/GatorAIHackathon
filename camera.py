@@ -22,8 +22,11 @@ while True:
     #Shows the Frame
     cv2.imshow('frame', frame)
     
+    #When button is pressed break the loop
     if cv2.waitKey(1) == ord('q'):
-        
+        break
+cap.release()
+cv2.destroyAllWindows()
 
 
 
