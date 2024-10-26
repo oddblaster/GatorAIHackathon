@@ -1,9 +1,8 @@
 
 import streamlit as st
 import cv2
-import pyaudio
-import wave
 import time
+import numpy as np
 
 st.set_page_config(
     page_title="Recorder",
