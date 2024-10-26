@@ -1,4 +1,5 @@
 jupyterlab
+notebook
 streamlit
 ibm-watsonx-ai
 opencv-python
@@ -7,3 +8,4 @@ requests-cache
 retry-requests
 numpy
 pandas
+geopandas
