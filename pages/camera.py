@@ -224,8 +224,6 @@ if st.session_state["captured_image"] is not None and not st.session_state["geoc
     encoded_image = base64.b64encode(buffered.getvalue()).decode("utf-8")  # Encode to Base64
 
     # print('saved_image.png')
-
-
     def augment_api_request_body(user_query, image):
         body = {
                 "messages": [{"role":"user","content":[{"type":"text","text": '''
@@ -256,6 +254,7 @@ if st.session_state["captured_image"] is not None and not st.session_state["geoc
 
     image = encoded_image
     user_query = "What is happening in this image?"
+    
     request_body = augment_api_request_body(user_query, image)
     response = requests.post(
         credentials.get("url"),
@@ -267,7 +266,6 @@ if st.session_state["captured_image"] is not None and not st.session_state["geoc
     data = response.json()
     result = data['choices'][0]['message']['content']
     st.write(result)
-
 
 
 
