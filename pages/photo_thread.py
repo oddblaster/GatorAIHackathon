@@ -2,6 +2,9 @@ import streamlit as st
 import os
 from supabase import Client, create_client
 from dotenv import load_dotenv
+from PIL import Image
+import io
+import base64
 
 load_dotenv()
 SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY")
@@ -28,7 +31,18 @@ user_data = supabase.table("input_data").select("images", "text_description", "a
 
 for user in user_data:
     with st.container(border=True):
-
-        filename = user["images"]
-        caption_data = f"{user['address']} | {user['time_stamp']}"
-        st.image(filename, caption=caption_data)
+        new_file = user['images']
+        try:
+            response3 = supabase.storage.from_("pictures").download(new_file)
+            image = response3
+            img = Image.open(io.BytesIO(image))
+            buffered = io.BytesIO()
+            img.save(buffered, format="JPEG") 
+            encoded_image = base64.b64encode(buffered.getvalue()).decode("utf-8")  # Encode to Base64d image.jpeg
+            encoded_image_with_prefix = f"data:image/jpeg;base64,{encoded_image}"
+            caption = f'{user["time_stamp"]} | {user["address"]}'
+            st.image(encoded_image_with_prefix, caption=caption)
+            
+            
+        except Exception:
+            print("no image")
