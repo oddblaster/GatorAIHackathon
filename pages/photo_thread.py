@@ -20,6 +20,19 @@ st.set_page_config(
 
 st.title("Your Community Photo Thread 🧵")
 
+st.markdown(
+    """
+    <style>
+    /* Set the main background to dark mode */
+    .stApp {
+        background-color: #1e1e1e;
+        color: #ffffff;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 
 response = supabase.table("input_data").select("*", count="exact").execute()
 st.session_state["captured_image"] = None

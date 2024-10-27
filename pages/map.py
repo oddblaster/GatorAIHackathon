@@ -5,6 +5,21 @@ import pandas as pd
 from supabase import Client, create_client
 from dotenv import load_dotenv
 
+
+st.markdown(
+    """
+    <style>
+    /* Set the main background to dark mode */
+    .stApp {
+        background-color: #1e1e1e;
+        color: #ffffff;
+    }
+
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 load_dotenv()
 SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY")
 SUPABASE_URL = os.getenv("SUPABASE_URL")
