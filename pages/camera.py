@@ -31,40 +31,6 @@ st.markdown(
         background-color: #1e1e1e;
         color: #ffffff;
     }
-
-    /* Make sidebar background gray and set text to white */
-    [data-testid="stSidebar"] {
-        background-color: #333333;
-    }
-
-    /* Set sidebar text to white */
-    [data-testid="stSidebar"] * {
-        color: #ffffff !important;
-    }
-
-    /* Make the top bar gray with white text */
-    header, .css-18ni7ap {
-        background-color: #333333 !important;
-        color: #ffffff !important;
-    }
-
-    /* Customize primary Streamlit elements for dark mode */
-    .css-1cpxqw2, .css-1v3fvcr, .css-hxt7ib, .css-1q8dd3e {
-        background-color: #444444;
-        color: #ffffff !important;
-    }
-
-    /* Set link colors to light gray for visibility */
-    a {
-        color: #9aa0a6;
-    }
-
-    /* Adjust buttons and inputs to match dark mode */
-    button, input, textarea, select {
-        background-color: #555555;
-        color: #ffffff;
-        border: 1px solid #666666;
-    }
     </style>
     """,
     unsafe_allow_html=True
