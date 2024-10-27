@@ -9,13 +9,9 @@ SUPABASE_URL = os.getenv("SUPABASE_URL")
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
 
-
-response = supabase.table("input_data").select("latitude").execute()
-print(response)
-
+response = supabase.table("input_data").select("text_description").order("timestamp", desc=True).limit(1).execute()
+st.write(response)
 
 st.title("Survivors Map")
-
-st.text_input()
 
 st.map()

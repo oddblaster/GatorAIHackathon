@@ -68,4 +68,4 @@ while cap.isOpened():
 
         st.write(data)
         
-        response = supabase.table("input_data").insert({"latitude":data["latitude"], "longitude":data["longitude"], "text_description":"No text yet"}).execute()
+        response = supabase.table("input_data").insert({"latitude":data["latitude"], "longitude":data["longitude"], "text_description":"POOPOOPEEPEE"}).execute()
