@@ -16,4 +16,6 @@ print(response)
 
 st.title("Survivors Map")
 
+st.text_input()
+
 st.map()

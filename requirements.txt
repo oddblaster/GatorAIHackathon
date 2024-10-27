@@ -13,5 +13,5 @@ geopandas
 scikit-learn
 seaborn
 supabase
-streamlit-tailwind
 streamlit_js_eval
+geopy

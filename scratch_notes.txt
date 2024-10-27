@@ -23,8 +23,7 @@ y = array[:,1]
 
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=1/3, random_state=0)
 
-
-
+///
 
 data = {
   "latitude": 66.66,
@@ -33,3 +32,12 @@ data = {
 }
 
 response = supabase.table("input_data").insert(data).execute()
+
+///
+
+address = st.text_input("Enter Your Address", placeholder="Enter Your Address")
+
+geolocator = Nominatim(user_agent="my_app")
+location = geolocator.geocode(address)
+
+response = supabase.table("input_data").insert({"latitude":location.latitude, "longitude":location.longitude, "text":"No text yet"}).execute()

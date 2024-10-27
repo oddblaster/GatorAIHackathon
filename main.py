@@ -9,7 +9,6 @@ SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY")
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
-from streamlit_tailwind import st_tw
 
 st.set_page_config(
     page_title="Main Page",
@@ -79,8 +78,3 @@ html_string = """
 </body>
 """
 st.components.v1.html(html_string, height=360)
-
-
-
-daily_dataframe = pd.DataFrame(data = daily_data)
-print(daily_dataframe)
