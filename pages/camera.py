@@ -23,7 +23,7 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("Take a Picture")
+st.title("Take a Picture of How You Were Affected 📷")
 
 html_string = """
 <head>

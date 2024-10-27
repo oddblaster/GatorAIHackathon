@@ -9,13 +9,22 @@ SUPABASE_URL = os.getenv("SUPABASE_URL")
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
 
+st.set_page_config(
+    page_title="Photo Thread",
+    page_icon="🧵",
+    layout="wide"
+)
+
+st.title("Your Community Photo Thread 🧵")
+
+
 response = supabase.table("input_data").select("*", count="exact").execute()
 st.session_state["captured_image"] = None
 st.session_state["geocode_done"] = False
 
-user_data = supabase.table("input_data").select("images", "text_description", "address", "time_stamp").execute().data
 
-st.write(user_data)
+
+user_data = supabase.table("input_data").select("images", "text_description", "address", "time_stamp").execute().data
 
 for user in user_data:
     with st.container(border=True):
