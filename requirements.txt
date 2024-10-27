@@ -11,12 +11,6 @@ pandas
 python-dotenv
 geopandas
 scikit-learn
-streamlit-tailwind
-streamlit_js_eval
 seaborn
 supabase
-scikit-learn
-seaborn
-supabase
-streamlit_js_eval
 geopy

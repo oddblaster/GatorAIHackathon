@@ -13,9 +13,13 @@ load_dotenv()
 IBM_API_KEY = os.getenv("IBM_API_KEY")
 PROJECT_ID = os.getenv("PROJECT_ID")
 
+streamlit.set_page_config(
+	layout="wide"
+)
+
 credentials = Credentials(
                    url = "https://us-south.ml.cloud.ibm.com",
-                   api_key = IBM_API_KEY,
+                   api_key = "",
                    
                   )
 
@@ -33,70 +37,6 @@ model = ModelInference(
         "max_new_tokens": 900
     }
 )
-
-html_string = """
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  	<script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .text-drop-shadow {
-            display: inline-block;
-            color: #39FF14;
-            font-size: 6rem;
-            font-weight: bold;
-            filter: drop-shadow(0 0 10px #39FF14);
-            margin-right: 2rem; 
-        }
-
-        .scrolling-text {
-            display: inline-block;
-            white-space: nowrap;
-        }
-
-        .marquee-container {
-            overflow: hidden;
-            width: 100%;
-            background-color: #000000;
-            display: flex;
-            align-items: center;
-        }
-
-        .marquee-content {
-            display: flex;
-            width: 200%;
-            animation: scroll-left 20s linear infinite;
-        }
-
-        @keyframes scroll-left {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(-50%);
-            }
-        }
-    </style>
-</head>
-
-<body>
-    <div class="marquee-container h-full bg-black">
-        <div class="marquee-content">
-            <!-- Original Content -->
-            <p class="scrolling-text text-drop-shadow">#ALIVE</p>
-            <p class="scrolling-text text-drop-shadow">#ALIVE</p>
-            <p class="scrolling-text text-drop-shadow">#ALIVE</p>
-            <p class="scrolling-text text-drop-shadow">#ALIVE</p>
-            <!-- Duplicate Content -->
-            <p class="scrolling-text text-drop-shadow">#ALIVE</p>
-            <p class="scrolling-text text-drop-shadow">#ALIVE</p>
-            <p class="scrolling-text text-drop-shadow">#ALIVE</p>
-            <p class="scrolling-text text-drop-shadow">#ALIVE</p>
-        </div>
-    </div>
-</body>
-
-"""
 
 # image_path = 'path/to/your/image.png'  # Specify the path to your image
 # image = Image.open(image_path)

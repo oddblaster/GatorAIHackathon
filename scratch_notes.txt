@@ -21,6 +21,29 @@ array = disasters_df.values
 x = array[:,0]
 y = array[:,1]
 
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=1/3, random_state=0)disasters_df = pd.read_csv('data\\storm_data\\Storms_2020.csv', usecols=['state','event_type','damage_property'])
+
+disasters_df = disasters_df[disasters_df["state"] == "Florida"]
+
+print(disasters_df.shape[0])
+
+pd.set_option('display.max_rows', 750)
+# print(disasters_df)
+
+event_type_mapping = {'flood':2, 'flash flood':2, 'drought':1, 'tornado':4, 'wildfire':3, 'thunderstorm wind':0}
+
+disasters_df['event_type'] = disasters_df['event_type'].map(event_type_mapping)
+
+del disasters_df['state']
+
+disasters_df = disasters_df.dropna()
+
+
+array = disasters_df.values
+
+x = array[:,0]
+y = array[:,1]
+
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=1/3, random_state=0)
 
 ///
