@@ -2,7 +2,15 @@
 Assets/
 data
 .env
+gatorai/node_modules
 saved.png
 Lib/
 Scripts/
 pyvenv.cfg
+
+saved.png
+Lib/
+Scripts/
+pyvenv.cfg
+gatorai/node_modules
+venv
