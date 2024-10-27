@@ -15,7 +15,7 @@ PROJECT_ID = os.getenv("PROJECT_ID")
 
 credentials = Credentials(
                    url = "https://us-south.ml.cloud.ibm.com",
-                   api_key = "",
+                   api_key = IBM_API_KEY,
                    
                   )
 

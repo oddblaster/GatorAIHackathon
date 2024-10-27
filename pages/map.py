@@ -1,5 +1,7 @@
 import streamlit as st
 import os
+import numpy as np
+import pandas as pd
 from supabase import Client, create_client
 from dotenv import load_dotenv
 
@@ -9,10 +11,24 @@ SUPABASE_URL = os.getenv("SUPABASE_URL")
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
 
-response = supabase.table("input_data").select("text_description").order("timestamp", desc=True).limit(1).execute()
+user_lat = supabase.table("input_data").select("latitude").order("timestamp", desc=True).limit(1).execute().data[0]
+user_long = supabase.table("input_data").select("longitude").order("timestamp", desc=True).limit(1).execute().data[0]
+
+st.write(user_lat)
+st.write(user_long)
+
 st.title("Survivors Map")
-st.map()
-st.write(response)
+df = pd.DataFrame(
+    {
+        "lat": [user_lat['latitude']],
+        "lon": [user_long['longitude']]
+
+    }
+)
+st.write(df['lat'])
+st.write(df['lon'])
+
+st.map(df, latitude="lat", longitude="lon", color="#FF0000", size=50)
 html_string = """
 <head>
     <meta charset="UTF-8">
