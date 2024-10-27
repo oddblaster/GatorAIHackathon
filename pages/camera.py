@@ -9,6 +9,7 @@ from geopy.geocoders import Nominatim
 from supabase import Client, create_client
 from dotenv import load_dotenv
 from requests import get
+from uuid import uuid4
 
 load_dotenv()
 
@@ -89,60 +90,57 @@ html_string = """
 """
 st.components.v1.html(html_string, height=360)
 
-# Initialize session state for capturing the image and for address input
+
 if "captured_image" not in st.session_state:
     st.session_state["captured_image"] = None
 if "geocode_done" not in st.session_state:
     st.session_state["geocode_done"] = False
 
-# Access the camera only if image hasn't been captured yet
 if st.session_state["captured_image"] is None:
     cap = cv2.VideoCapture(0)
     frame_placeholder = st.empty()
 
-    # Take Picture button
     take_picture = st.button("Take Picture")
 
-    # Continuously display video feed
     while cap.isOpened():
         ret, frame = cap.read()
         if not ret:
             st.write("Failed to grab frame.")
             break
         
-        # Convert frame to RGB (from BGR) for Streamlit
         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         frame_placeholder.image(frame_rgb, use_column_width=True)
 
-        # Capture image if the button was clicked
         if take_picture:
             st.session_state["captured_image"] = frame
-            cv2.imwrite("saved.jpeg", frame)
+            unique = "user_images\\" + str(uuid4()) + ".jpeg"
+            st.session_state["unique_filename"] = unique
+            cv2.imwrite(unique, frame)
             cap.release()
             break
 
-# Input for address, shown only after picture is taken
 if st.session_state["captured_image"] is not None and not st.session_state["geocode_done"]:
-    address = st.text_input("Enter Your Address (include city)", placeholder="Enter Your Address (include city)", key="address")
+    address = st.text_input("Enter Your Address (include city, no zipcode)", placeholder="Enter Your Address (include city, no zipcode)", key="address")
     if address:
         st.write("Entered address:", address)
 
-        # Initialize geolocator and fetch geolocation only if an address is provided
         geolocator = Nominatim(user_agent="my_app")
         location = geolocator.geocode(address)
 
-        # Check if location was found
         if location:
             st.write("Latitude:", location.latitude)
             st.write("Longitude:", location.longitude)
 
-            # Insert into Supabase
+            unique_filename = st.session_state.get("unique_filename")
+
             response = supabase.table("input_data").insert({
                 "latitude": location.latitude,
                 "longitude": location.longitude,
-                "text_description": "No text yet"
+                "text_description": "No text yet",
+                "address": address,
+                "images": unique_filename
             }).execute()
-            st.session_state["geocode_done"] = True  # Prevents re-geocoding on reload
+            st.session_state["geocode_done"] = True
         else:
             st.write("Location not found. Please enter a valid address.")
             

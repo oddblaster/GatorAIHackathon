@@ -19,9 +19,6 @@ st.sidebar.title("#ALIVE")
 st.session_state["captured_image"] = None
 st.session_state["geocode_done"] = False
 
-
-
-
 html_string = """
 <head>
     <meta charset="UTF-8">
@@ -85,3 +82,5 @@ html_string = """
 </body>
 """
 st.components.v1.html(html_string, height=360)
+
+st.image("Vanilla-Cupcakes-with-Vanilla-Swiss-Meringue-SQ.webp", caption="cupckae")
