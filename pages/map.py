@@ -5,6 +5,21 @@ import pandas as pd
 from supabase import Client, create_client
 from dotenv import load_dotenv
 
+
+st.markdown(
+    """
+    <style>
+    /* Set the main background to dark mode */
+    .stApp {
+        background-color: #1e1e1e;
+        color: #ffffff;
+    }
+
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 load_dotenv()
 SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY")
 SUPABASE_URL = os.getenv("SUPABASE_URL")
@@ -18,20 +33,25 @@ st.session_state["geocode_done"] = False
 
 user_lat = supabase.table("input_data").select("latitude").execute().data
 user_long = supabase.table("input_data").select("longitude").execute().data
+severity = supabase.table("input_data").select("ranking").execute().data
 
-if user_lat and user_long:
+if user_lat and user_long and severity:
   latitudes = [entry['latitude'] for entry in user_lat]
   longitudes = [entry['longitude'] for entry in user_long]
+  severities = [entry['ranking'] for entry in severity]
+  
+
 
 st.title("Survivors Map")
 df = pd.DataFrame(
   {
     "lat": latitudes,
-    "lon": longitudes
+    "lon": longitudes,
+    "size": [100*entry for entry in severities]
   }
 )
 
-st.map(df, latitude="lat", longitude="lon", color="#FF00FF", size=5000)
+st.map(df, latitude="lat", longitude="lon", color="#FF00FF", size="size")
 html_string = """
 <head>
     <meta charset="UTF-8">
