@@ -33,22 +33,25 @@ st.session_state["geocode_done"] = False
 
 user_lat = supabase.table("input_data").select("latitude").execute().data
 user_long = supabase.table("input_data").select("longitude").execute().data
-severity = supabase.table("input_data").select("severity").execute().data
+severity = supabase.table("input_data").select("ranking").execute().data
 
 if user_lat and user_long and severity:
   latitudes = [entry['latitude'] for entry in user_lat]
   longitudes = [entry['longitude'] for entry in user_long]
-  severities = [entry['severity'] for entry in severity]
+  severities = [entry['ranking'] for entry in severity]
+  
+
 
 st.title("Survivors Map")
 df = pd.DataFrame(
   {
     "lat": latitudes,
-    "lon": longitudes
+    "lon": longitudes,
+    "size": [100*entry for entry in severities]
   }
 )
 
-st.map(df, latitude="lat", longitude="lon", color="#FF00FF", size=1000)
+st.map(df, latitude="lat", longitude="lon", color="#FF00FF", size="size")
 html_string = """
 <head>
     <meta charset="UTF-8">
