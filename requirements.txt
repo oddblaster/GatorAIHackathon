@@ -15,3 +15,7 @@ seaborn
 supabase
 geopy
 uuid
+
+ibm_watsonx_ai
+langchain
+langchain_ibm

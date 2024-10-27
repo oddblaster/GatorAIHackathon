@@ -6,6 +6,7 @@ import streamlit as st
 import os
 from dotenv import load_dotenv
 from PIL import Image
+from supabase import Client, create_client
 import io
 import base64
 import requests
@@ -15,6 +16,10 @@ IBM_API_KEY = os.getenv("IBM_API_KEY")
 PROJECT_ID = os.getenv("PROJECT_ID")
 st.session_state["captured_image"] = None
 st.session_state["geocode_done"] = False
+
+SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY")
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
 
 st.set_page_config(
 	layout="wide"
@@ -49,14 +54,16 @@ headers = {
 }
 
 
+row = supabase.table("input_data").select("*").order("time_stamp", desc=True).limit(1).execute()
 
-image_path = "saved.jpeg"
+
+image_path = row["images"]
 img = Image.open(image_path)
 buffered = io.BytesIO()
 img.save(buffered, format="JPEG")  # Save the image to the BytesIO object
 encoded_image = base64.b64encode(buffered.getvalue()).decode("utf-8")  # Encode to Base64
 
-print('saved_image.png')
+# print('saved_image.png')
 
 
 def augment_api_request_body(user_query, image):
@@ -99,12 +106,6 @@ if response.status_code != 200:
     raise Exception("Non-200 response: " + str(response.text))
 data = response.json()
 st.write(data['choices'][0]['message']['content'])
-
-
-
-
-
-
 
 
 import getpass
