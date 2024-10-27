@@ -14,3 +14,4 @@ saved.png
 Lib/
 Scripts/
 pyvenv.cfg
+venv/
