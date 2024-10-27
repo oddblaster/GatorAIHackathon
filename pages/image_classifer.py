@@ -55,8 +55,7 @@ headers = {
 }
 
 
-row = supabase.table("input_data").select("*").order("time_stamp", desc=True).limit(1).execute()
-
+row = supabase.table("input_data").select("*").order("time_stamp", desc=True).limit(1).execute().data[0]
 
 image_path = row["images"]
 img = Image.open(image_path)
@@ -64,10 +63,10 @@ buffered = io.BytesIO()
 img.save(buffered, format="JPEG")  # Save the image to the BytesIO object
 encoded_image = base64.b64encode(buffered.getvalue()).decode("utf-8")  # Encode to Base64
 
-# print('saved_image.png')
 
 
 def augment_api_request_body(user_query, image):
+    
     body = {
             "messages": [{"role":"user","content":[{"type":"text","text": '''
             Conduct an exhaustive analysis of the attached image with a focus on several critical elements to understand the full scope and context of the disaster. Your analysis should be highly detailed and structured as follows:
@@ -93,7 +92,7 @@ def augment_api_request_body(user_query, image):
             "max_tokens": 8000
     }
     return body
-st.image("image.jpeg")
+st.image(image_path)
 
 image = encoded_image
 user_query = "What is happening in this image?"

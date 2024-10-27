@@ -15,6 +15,7 @@ st.set_page_config(
     page_icon="🌊",
 	layout="wide"
 )
+
 st.sidebar.title("#ALIVE")
 st.session_state["captured_image"] = None
 st.session_state["geocode_done"] = False
