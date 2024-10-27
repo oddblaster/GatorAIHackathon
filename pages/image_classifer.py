@@ -13,6 +13,7 @@ import requests
 load_dotenv()
 IBM_API_KEY = os.getenv("IBM_API_KEY")
 PROJECT_ID = os.getenv("PROJECT_ID")
+CLOUD_API_KEY= os.getenv("CLOUD_API_KEY")
 st.session_state["captured_image"] = None
 st.session_state["geocode_done"] = False
 
@@ -50,7 +51,7 @@ headers = {
 
 
 
-image_path = "saved.jpeg"
+image_path = "image.jpeg"
 img = Image.open(image_path)
 buffered = io.BytesIO()
 img.save(buffered, format="JPEG")  # Save the image to the BytesIO object
@@ -85,7 +86,7 @@ def augment_api_request_body(user_query, image):
             "max_tokens": 8000
     }
     return body
-st.image("saved.jpeg")
+st.image("image.jpeg")
 
 image = encoded_image
 user_query = "What is happening in this image?"
@@ -98,7 +99,8 @@ response = requests.post(
 if response.status_code != 200:
     raise Exception("Non-200 response: " + str(response.text))
 data = response.json()
-st.write(data['choices'][0]['message']['content'])
+result = data['choices'][0]['message']['content']
+st.write(result)
 
 
 
@@ -133,7 +135,7 @@ credentials = Credentials(
 
 parameters = {
     GenParams.DECODING_METHOD: DecodingMethods.SAMPLE.value,
-    GenParams.MAX_NEW_TOKENS: 100,
+    GenParams.MAX_NEW_TOKENS: 4096,
     GenParams.MIN_NEW_TOKENS: 1,
     GenParams.TEMPERATURE: 0.5,
     GenParams.TOP_K: 50,
@@ -142,7 +144,7 @@ parameters = {
 
 project_id = os.environ["PROJECT_ID"]
 print([model.name for model in ModelTypes])
-
+st.write("Instructions")
 model_id_1 = ModelTypes.LLAMA_3_70B_INSTRUCT.value
 model_id_2 = ModelTypes.FLAN_T5_XXL.value
 
@@ -162,29 +164,85 @@ flan_t5_llm = WatsonxLLM(
     )
 
 disaster_identification = PromptTemplate(
-    input_variables=["disaster_analysis"], 
-    template='''f: 
+    input_variables=["result"], 
+    template='''
+    Context:
+    {result}
+    
+    Prompt:
+    Measure the severity of the disaster on a scale from 1 to 100. With 1 being minimal damage,
+    and 100 being the most damage a natural disaster has ever done. Respond ONLY as an integer.
+    RETURN only the integer and nothing else.
      '''
 )
 disaster_response = PromptTemplate(
-    input_variables=["disaster_response"],
-    template="Answer the following question: {question}",
+    input_variables=["result"],
+    template='''
+    context:
+        {result}
+    prompt:
+    
+    Objective: Develop a comprehensive action plan to effectively respond to the current natural disaster situation.
+
+Step 1: Situation Assessment
+1.1 Gather Information
+Review real-time data from weather stations, satellites, and local reports.
+Understand the scale and type of disaster (e.g., flood, earthquake, hurricane).
+Identify the affected areas and magnitude of impact.
+1.2 Conduct Field Assessments
+Deploy drones or reconnaissance teams to survey and map hard-hit areas.
+Assess on-ground conditions such as road accessibility, building damage, and infrastructure failure.
+Use initial assessments to prioritize regions based on severity and urgency.
+Step 2: Resource Mobilization
+2.1 Inventory Resources
+Compile a list of available resources: emergency personnel, vehicles, medical supplies, food and water, and shelters.
+Identify additional resources that may be required and potential sources (government stockpiles, NGO supplies, international aid).
+2.2 Allocate Resources
+Develop a deployment strategy for rapid distribution based on priority zones.
+Establish a centralized command center to coordinate resource allocation and manage real-time updates.
+Prepare logistical plans for transportation, taking into account damaged infrastructure and accessibility issues.
+Step 3: Communication Plan
+3.1 Internal Communication
+Set up a secure and reliable communication network among teams.
+Regularly brief all teams on situational updates and strategic changes.
+3.2 External Communication
+Establish communication lines with local authorities, emergency services, and community leaders.
+Utilize multi-channel communication strategies (social media, SMS alerts, radio broadcasts) to inform and instruct the public.
+Step 4: Rescue and Relief Operations
+4.1 Search and Rescue
+Mobilize search and rescue teams to the most critical areas first.
+Ensure teams are equipped with necessary gear such as medical kits, extraction tools, and communication devices.
+Coordinate with local volunteers and international aid workers.
+4.2 Provide Immediate Relief
+Set up emergency shelters in safe locations with adequate facilities.
+Ensure a continuous supply of basic needs: food, clean water, medical care, and sanitation.
+Create a system for registering evacuees to track and reunite families.
+Step 5: Restoration and Rehabilitation
+5.1 Infrastructure Restoration
+Work alongside engineering teams to begin immediate repair of essential infrastructure (roads, bridges, utilities).
+Develop a long-term plan for rebuilding damaged buildings and homes.
+5.2 Community Support
+Offer psychological counseling and social support to affected residents.
+Coordinate with health services to set up temporary clinics and extend medical care.
+Implement educational programs to help people resume normal life activities.
+Step 6: Review and Adaptation
+6.1 Post-Operation Analysis
+Conduct debriefings to evaluate the effectiveness of response efforts.
+Collect feedback from field teams and affected communities.
+6.2 Improve Future Preparedness
+Identify areas of improvement and update disaster response protocols.
+Conduct training and simulations based on lessons learned to enhance preparedness for future incidents.
+Invest in infrastructure and technology to mitigate the impact of similar disasters.
+This structured plan ensures a detailed and organized approach to responding to natural disasters, enhancing the effectiveness and efficiency of relief and recovery efforts.
+    ''',
 )
 
 
-prompt_to_flan_ul2 = LLMChain(llm=llama, prompt=disaster_identification, output_key='question')
-flan_to_t5 = LLMChain(llm=flan_t5_llm, prompt=disaster_response, output_key='answer')
-sample_payload = {
-    "input_data": [
-        {
-            "fields": ["disaster_analysis"],
-            "values": ["disaster_response   "]
-        }
-    ]
-}
+prompt_to_flan_ul2 = LLMChain(llm=llama, prompt=disaster_identification, output_key='severity')
+flan_to_t5 = LLMChain(llm=flan_t5_llm, prompt=disaster_response, output_key='procedures')
 
 
-qa = SequentialChain(chains=[prompt_to_flan_ul2, flan_to_t5], input_variables=["disaster_analysis"], output_variables=['question', 'answer'], verbose=True)
+qa = SequentialChain(chains=[prompt_to_flan_ul2, flan_to_t5], input_variables=["result"], output_variables=['severity', 'procedures'], verbose=True)
 
-qa.invoke({"disaster_analysis": "disaster_response"})
+st.write(qa.invoke({"result": "result"}))
 
