@@ -16,6 +16,6 @@ supabase
 geopy
 uuid
 
-ibm_watsonx_ai
+ibm-watsonx-ai
 langchain
 langchain_ibm
