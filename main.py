@@ -79,8 +79,3 @@ html_string = """
 </body>
 """
 st.components.v1.html(html_string, height=360)
-
-
-
-daily_dataframe = pd.DataFrame(data = daily_data)
-print(daily_dataframe)
