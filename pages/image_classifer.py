@@ -13,6 +13,10 @@ load_dotenv()
 IBM_API_KEY = os.getenv("IBM_API_KEY")
 PROJECT_ID = os.getenv("PROJECT_ID")
 
+streamlit.set_page_config(
+	layout="wide"
+)
+
 credentials = Credentials(
                    url = "https://us-south.ml.cloud.ibm.com",
                    api_key = "",
