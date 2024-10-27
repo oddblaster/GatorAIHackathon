@@ -90,6 +90,9 @@ html_string = """
 """
 st.components.v1.html(html_string, height=360)
 
+bucket_name = 'pictures'
+
+response = supabase.storage().upload(bucket_name, file_path, image_data)
 
 if "captured_image" not in st.session_state:
     st.session_state["captured_image"] = None
@@ -143,6 +146,13 @@ if st.session_state["captured_image"] is not None and not st.session_state["geoc
                 "images": unique_filename,
                 "name": name
             }).execute()
+            
+            with open(unique_filename, 'rb') as image_file:
+                image_data = image_file.read()
+            
+            response2 = supabase.storage().upload(bucket_name, unique_filename, image_data)
+
+
             st.session_state["geocode_done"] = True
         else:
             st.write("Location not found. Please enter a valid address.")
