@@ -82,5 +82,3 @@ html_string = """
 </body>
 """
 st.components.v1.html(html_string, height=360)
-
-st.image("Vanilla-Cupcakes-with-Vanilla-Swiss-Meringue-SQ.webp", caption="cupckae")
