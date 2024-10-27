@@ -15,3 +15,8 @@ streamlit-tailwind
 streamlit_js_eval
 seaborn
 supabase
+scikit-learn
+seaborn
+supabase
+streamlit-tailwind
+streamlit_js_eval
