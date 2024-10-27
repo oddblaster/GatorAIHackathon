@@ -66,7 +66,7 @@ html_string = """
             display: flex;
             /* Ensure the content width adjusts based on its content */
             width: max-content;
-            animation: scroll-left 15s linear infinite;
+            animation: scroll-left 10s linear infinite;
         }
 
         /* Prevent items from shrinking when overflowing */
@@ -155,8 +155,18 @@ mission_statement = """
     <div class="marquee-container h-full bg-transparent">
     <p class="scrolling-text text-drop-shadow text-7xl mb-6">#MISSION STATEMENT</p>
     </div>
-	<p class="scrolling-text text-drop-shadow text-2xl">Our mission is to empower communities and enhance disaster response efforts <br/> through a crowd-sourced incident tracking platform. <br/> By connecting people in crisis, we aim to improve situational awareness, <br/> streamline rescue operations, and ultimately save lives during natural disasters.</p>
+	<p class="scrolling-text text-drop-shadow text-2xl mb-20">Our mission is to empower communities and enhance disaster response efforts <br/> through a crowd-sourced incident tracking platform. <br/> By connecting people in crisis, we aim to improve situational awareness, <br/> streamline rescue operations, and ultimately save lives during natural disasters.</p>
+	<p class="text-drop-shadow text-2xl">By: #Hemanshu Boppana</p>
+	<p class="text-drop-shadow text-2xl">#Department of Statistics</p>
+	<p class="text-drop-shadow text-2xl">#Eren Chang</p>
+	<p class="text-drop-shadow text-2xl">#HWCOE</p>
+	<p class="text-drop-shadow text-2xl">#Chuyang Zhang</p>
+	<p class="text-drop-shadow text-2xl">#HWCOE</p>
+	<p class="text-drop-shadow text-2xl">#Jack Gordon</p>
+	<p class="text-drop-shadow text-2xl">#HWCOE</p>
+	<p class="text-drop-shadow text-2xl">#Maggie Yan</p>
+	<p class="text-drop-shadow text-2xl">#HWCOE</p>
 </body>
 """
 st.components.v1.html(html_string, height=196)
-st.components.v1.html(mission_statement, height=300)
+st.components.v1.html(mission_statement, height=400)
