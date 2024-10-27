@@ -11,8 +11,19 @@ SUPABASE_URL = os.getenv("SUPABASE_URL")
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
 
-user_lat = supabase.table("input_data").select("latitude").order("timestamp", desc=True).limit(1).execute().data[0]
-user_long = supabase.table("input_data").select("longitude").order("timestamp", desc=True).limit(1).execute().data[0]
+response = supabase.table("input_data").select("*", count="exact").execute()
+st.session_state["captured_image"] = None
+st.session_state["geocode_done"] = False
+
+
+
+# Access the count
+row_count = response.count
+
+print(row_count)
+
+user_lat = supabase.table("input_data").select("latitude").execute().data[0]
+user_long = supabase.table("input_data").select("longitude").order("timestamp", desc=True).limit(row_count).execute().data[0]
 
 st.write(user_lat)
 st.write(user_long)
@@ -28,7 +39,7 @@ df = pd.DataFrame(
 st.write(df['lat'])
 st.write(df['lon'])
 
-st.map(df, latitude="lat", longitude="lon", color="#FF0000", size=50)
+st.map(df, latitude="lat", longitude="lon", color="#0000FF", size=25)
 html_string = """
 <head>
     <meta charset="UTF-8">

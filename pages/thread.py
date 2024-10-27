@@ -1,6 +1,10 @@
 import streamlit as st
 
 # Initialize the session state for messages if not already done
+st.session_state["captured_image"] = None
+st.session_state["geocode_done"] = False
+
+
 if 'messages' not in st.session_state:
     st.session_state['messages'] = []
 

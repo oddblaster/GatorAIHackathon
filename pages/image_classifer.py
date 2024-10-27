@@ -12,6 +12,8 @@ import base64
 load_dotenv()
 IBM_API_KEY = os.getenv("IBM_API_KEY")
 PROJECT_ID = os.getenv("PROJECT_ID")
+streamlit.session_state["captured_image"] = None
+streamlit.session_state["geocode_done"] = False
 
 streamlit.set_page_config(
 	layout="wide"
