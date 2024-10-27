@@ -30,5 +30,5 @@ for user in user_data:
     with st.container(border=True):
 
         filename = user["images"]
-        caption_data = f"{user['time_stamp']} | {user['address']} | {user['text_description']}"
+        caption_data = f"{user['address']} | {user['time_stamp']}"
         st.image(filename, caption=caption_data)

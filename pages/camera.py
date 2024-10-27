@@ -120,9 +120,11 @@ if st.session_state["captured_image"] is None:
             break
 
 if st.session_state["captured_image"] is not None and not st.session_state["geocode_done"]:
-    address = st.text_input("Enter Your Address (include city, no zipcode)", placeholder="Enter Your Address (include city, no zipcode)", key="address")
-    if address:
+    address = st.text_input("Enter Your Address (include city, no zipcode, no commas)", placeholder="Enter an Address or a Location Name", key="address")
+    name = st.text_input("Enter Your Name", placeholder="Enter Your Name", key="name")
+    if address and name:
         st.write("Entered address:", address)
+        st.write("Entered name:", name)
 
         geolocator = Nominatim(user_agent="my_app")
         location = geolocator.geocode(address)
@@ -138,11 +140,13 @@ if st.session_state["captured_image"] is not None and not st.session_state["geoc
                 "longitude": location.longitude,
                 "text_description": "No text yet",
                 "address": address,
-                "images": unique_filename
+                "images": unique_filename,
+                "name": name
             }).execute()
             st.session_state["geocode_done"] = True
         else:
             st.write("Location not found. Please enter a valid address.")
+
             
 
 

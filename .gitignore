@@ -25,3 +25,5 @@ Lib/
 Scripts/
 pyvenv.cfg
 venv/
+
+user_images/
